@@ -1,9 +1,14 @@
 package si.um.feri.osebe.vao;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@Entity
 public class Oseba {
+
+    public Oseba() {
+    }
 
     public Oseba(String ime, String priimek) {
         this.ime = ime;
@@ -14,6 +19,8 @@ public class Oseba {
 
     private String priimek;
 
+    @Id
+    @GeneratedValue
     private int id;
 
 }
