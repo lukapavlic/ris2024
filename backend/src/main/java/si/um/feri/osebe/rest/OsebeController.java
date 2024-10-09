@@ -2,15 +2,9 @@ package si.um.feri.osebe.rest;
 
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import si.um.feri.osebe.dao.OsebaRepository;
 import si.um.feri.osebe.vao.Oseba;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -19,6 +13,9 @@ import java.util.logging.Logger;
 public class OsebeController {
 
     Logger logger = Logger.getLogger(OsebeController.class.getName());
+
+    @Autowired
+    OsebaRepository repository;
 
     @GetMapping("/info")
     public String info(){
@@ -37,15 +34,18 @@ public class OsebeController {
         return repository.findById(id);
     }
 
-    @Autowired
-    OsebaRepository repository;
-
-    @PostMapping("/osebe")
-    public void postOseba(Oseba oseba){
-        logger.info("Post Oseba with id: " + oseba.getId());
+    @PutMapping("/osebe")
+    public void putOseba(Oseba oseba){
+        logger.info("Put Oseba with id: " + oseba.getId());
         repository.save(oseba);
     }
 
-
+    @PostMapping("/osebe")
+    public Oseba postOseba(Oseba oseba){
+        logger.info("Post Oseba " + oseba);
+        Oseba newOseba = new Oseba(oseba.getIme(), oseba.getPriimek());
+        repository.save(newOseba);
+        return newOseba;
+    }
 
 }
